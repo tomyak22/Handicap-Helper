@@ -1,0 +1,24 @@
+<mat-card>
+    <form (submit)="onAddRound(roundForm)" #roundForm="ngForm">
+        <mat-form-field>
+            <input matInput name="score" type="text" required #score="ngModel" placeholder=" Enter your score">
+            <mat-error *ngIf="score.invalid">Please enter a score</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput name="course" type="text" required #course="ngModel" placeholder="Enter the course played">
+            <mat-error *ngIf="course.invalid">Please enter a course</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput name="rating" type="text" required #rating="ngModel" placeholder="Enter course rating">
+            <mat-error *ngIf="rating.invalid">Please enter the course rating</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput name="slope" type="text" required #slope="ngModel" placeholder="Enter course slope">
+            <mat-error *ngIf="slope.invalid">Please enter the course's slope</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput name="date" type="date" required #date="ngModel" placeholder="Select date played">
+            <mat-error *ngIf="date.invalid">Please select a valid day</mat-error>
+        </mat-form-field>
+    </form>
+</mat-card>

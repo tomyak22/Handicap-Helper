@@ -24,7 +24,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // creates connection to the mongoDb
-mongoose.connect('bongodb://localhost/HandicapHelperDB');
+mongoose.connect('mongodb://localhost/HandicapHelperDB');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
