@@ -1,1 +1,0 @@
-// TODO: Create the model for the golfer schema.
