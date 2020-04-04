@@ -1,1 +1,16 @@
-<p>round-list works!</p>
+<mat-accordion multi="true" *ngIf="rounds.length > 0">
+    <mat-expansion-panel *ngFor="let round of rounds">
+        <mat-expansion-panel-header>
+            {{round.course}}
+        </mat-expansion-panel-header>
+        <p>Score: {{round.score}}</p>
+        <p>Course rating: {{round.rating}}</p>
+        <p>Course slope: {{round.slope}}</p>
+        <p>Date played: {{round.date}}</p>
+        <mat-action-row>
+            <button mat-button color="primary">EDIT</button>
+            <button mat-button color="warn" (click)="onDelete(round.id)">DELETE</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion>
+<p class="info-text mat-body-1" *ngIf="0 >= rounds.length">No Rounds added yet!</p>
