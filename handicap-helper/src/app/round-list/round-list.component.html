@@ -1,4 +1,5 @@
-<mat-accordion multi="true" *ngIf="rounds.length > 0">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi="true" *ngIf="rounds.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let round of rounds">
         <mat-expansion-panel-header>
             {{round.course}}
@@ -8,7 +9,7 @@
         <p>Course slope: {{round.slope}}</p>
         <p>Date played: {{round.date}}</p>
         <mat-action-row>
-            <button mat-button color="primary">EDIT</button>
+            <a mat-button color="primary" [routerLink]="['/edit/', round.id]">EDIT</a>
             <button mat-button color="warn" (click)="onDelete(round.id)">DELETE</button>
         </mat-action-row>
     </mat-expansion-panel>

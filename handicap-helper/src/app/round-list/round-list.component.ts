@@ -11,21 +11,24 @@ import { RoundsService } from '../services/rounds.service';
 export class RoundListComponent implements OnInit, OnDestroy {
   rounds: Round[] = [];
   private roundsSub: Subscription;
+  isLoading = false;
 
   constructor(
     public roundsService: RoundsService
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.roundsService.getRounds();
     this.roundsSub = this.roundsService.getRoundsUpdateListener()
       .subscribe((rounds: Round[]) => {
+        this.isLoading = false;
         this.rounds = rounds;
       });
   }
 
   onDelete(roundId: string) {
-    this.roundsService.deletePost(roundId);
+    this.roundsService.deleteRound(roundId);
   }
 
   ngOnDestroy(): void {

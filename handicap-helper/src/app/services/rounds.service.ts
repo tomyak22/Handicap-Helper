@@ -3,6 +3,7 @@ import { Round } from '../models/round.model';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class RoundsService {
   private roundsUpdated = new Subject<Round[]>();
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   /**
@@ -45,6 +47,16 @@ export class RoundsService {
       });
   }
 
+  getRound(id: string) {
+    return this.http.get<{
+      _id: string,
+      score: number,
+      course: string,
+      slope: number,
+      rating: number,
+      date: string}>('http://localhost:3000/api/rounds/' + id);
+  }
+
   /**
    * Add a round to the local api running on node
    */
@@ -63,10 +75,31 @@ export class RoundsService {
         round.id = id;
         this.rounds.push(round);
         this.roundsUpdated.next([...this.rounds]);
+        this.router.navigate(['/']);
       });
   }
 
-  deletePost(roundId: string) {
+  updateRound(id: string, score: number, course: string, rating: number, slope: number, date: string) {
+    const round: Round = {
+      id: id,
+      score: score,
+      course: course,
+      rating: rating,
+      slope: slope,
+      date: date
+    };
+    this.http.put('http://localhost:3000/api/rounds/' + id, round)
+      .subscribe(response => {
+        const updatedRounds = [...this.rounds];
+        const oldRoundIndex = updatedRounds.findIndex(r => r.id === round.id);
+        updatedRounds[oldRoundIndex] = round;
+        this.rounds = updatedRounds;
+        this.roundsUpdated.next([...this.rounds]);
+        this.router.navigate(['/']);
+      });
+  }
+
+  deleteRound(roundId: string) {
     this.http.delete('http://localhost:3000/api/rounds/' + roundId)
       .subscribe(() => {
         const updatedRounds = this.rounds.filter(round => round.id !== roundId);
