@@ -1,30 +1,29 @@
 <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <form (submit)="onAddRound(roundForm)" #roundForm="ngForm" *ngIf="!isLoading">
+    <form [formGroup]="form" (submit)="onAddRound()" *ngIf="!isLoading">
         <mat-form-field>
-            <input matInput [ngModel]="round?.score" name="score" type="text" required #score="ngModel" placeholder=" Enter your score">
-            <mat-error *ngIf="score.invalid">Please enter a score</mat-error>
+            <input matInput formControlName="score" type="text" placeholder=" Enter your score">
+            <mat-error *ngIf="form.get('score').invalid">Please enter a score</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput [ngModel]="round?.course" name="course" type="text" required #course="ngModel" placeholder="Enter the course played">
-            <mat-error *ngIf="course.invalid">Please enter a course</mat-error>
+            <input matInput formControlName="course" type="text" placeholder="Enter the course played">
+            <mat-error *ngIf="form.get('course').invalid">Please enter a course</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput [ngModel]="round?.rating" name="rating" type="text" required #rating="ngModel" placeholder="Enter course rating">
-            <mat-error *ngIf="rating.invalid">Please enter the course rating</mat-error>
+            <input matInput formControlName="rating" type="text" placeholder="Enter course rating">
+            <mat-error *ngIf="form.get('rating').invalid">Please enter the course rating</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput [ngModel]="round?.slope" name="slope" type="text" required #slope="ngModel" placeholder="Enter course slope">
-            <mat-error *ngIf="slope.invalid">Please enter the course's slope</mat-error>
+            <input matInput formControlName="slope" type="text" placeholder="Enter course slope">
+            <mat-error *ngIf="form.get('slope').invalid">Please enter the course's slope</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput [ngModel]="round?.date" name="date" type="date" required #date="ngModel" placeholder="Select date played">
+            <input matInput formControlName="date" type="date" placeholder="Select date played">
         </mat-form-field>
         <div>
             <button mat-raised-button color="accent" type="submit">Save Round</button>
             <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
             <input type="file" #filePicker>
         </div>
-        
     </form>
 </mat-card>

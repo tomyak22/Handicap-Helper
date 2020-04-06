@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoundsService } from '../services/rounds.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Round } from '../models/round.model';
 
@@ -15,6 +15,7 @@ export class RoundCreateComponent implements OnInit {
   enteredRating = null;
   enteredSlope = null;
   enteredDate = '';
+  form: FormGroup;
   private mode = 'create';
   private roundId: string;
   round: Round;
@@ -26,6 +27,14 @@ export class RoundCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      'score': new FormControl(null, {validators: [Validators.required]}),
+      'course': new FormControl(null, {validators: [Validators.required]}),
+      'rating': new FormControl(null, {validators: [Validators.required]}),
+      'slope': new FormControl(null, {validators: [Validators.required]}),
+      'date': new FormControl(null, {validators: [Validators.required]})
+    });
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('roundId')) {
         this.mode = 'edit';
@@ -41,6 +50,13 @@ export class RoundCreateComponent implements OnInit {
             slope: data.slope,
             date: data.date
           };
+          this.form.setValue({
+            'score': this.round.score,
+            'course': this.round.course,
+            'rating': this.round.rating,
+            'slope': this.round.slope,
+            'date': this.round.date
+          });
         });
       } else {
         this.mode = 'create';
@@ -49,29 +65,29 @@ export class RoundCreateComponent implements OnInit {
     });
   }
 
-  onAddRound(form: NgForm) {
-    if (form.invalid) {
+  onAddRound() {
+    if (this.form.invalid) {
       return;
     }
     this.isLoading = true;
     if (this.mode === 'create') {
       this.roundsService.addRound(
-        form.value.score,
-        form.value.course,
-        form.value.rating,
-        form.value.slope,
-        form.value.date
+        this.form.value.score,
+        this.form.value.course,
+        this.form.value.rating,
+        this.form.value.slope,
+        this.form.value.date
       );
     } else {
       this.roundsService.updateRound(
         this.roundId,
-        form.value.score,
-        form.value.course,
-        form.value.rating,
-        form.value.slope,
-        form.value.date);
+        this.form.value.score,
+        this.form.value.course,
+        this.form.value.rating,
+        this.form.value.slope,
+        this.form.value.date);
     }
-    form.resetForm();
+    this.form.reset();
   }
 
 }

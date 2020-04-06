@@ -19,7 +19,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { RoundCreateComponent } from './round-create/round-create.component';
 import { RoundListComponent } from './round-list/round-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -35,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatCardModule,
