@@ -5,3 +5,7 @@ mat-form-field, text {
 mat-spinner {
     margin: auto;
 }
+
+input[type="file"] {
+    visibility: hidden;
+}
