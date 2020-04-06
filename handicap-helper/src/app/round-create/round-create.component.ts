@@ -20,6 +20,7 @@ export class RoundCreateComponent implements OnInit {
   private roundId: string;
   round: Round;
   isLoading = false;
+  imagePreview;
 
   constructor(
     public roundsService: RoundsService,
@@ -32,7 +33,9 @@ export class RoundCreateComponent implements OnInit {
       'course': new FormControl(null, {validators: [Validators.required]}),
       'rating': new FormControl(null, {validators: [Validators.required]}),
       'slope': new FormControl(null, {validators: [Validators.required]}),
-      'date': new FormControl(null, {validators: [Validators.required]})
+      'date': new FormControl(null, {validators: [Validators.required]}),
+      // REMOVE IMAGES HERE LATER
+      'courseLogo': new FormControl(null, {validators: [Validators.required]})
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -88,6 +91,18 @@ export class RoundCreateComponent implements OnInit {
         this.form.value.date);
     }
     this.form.reset();
+  }
+
+  // REMOVE LATER ON PLEASE
+  onImagedPicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files[0];
+    this.form.patchValue({courseLogo: file});
+    this.form.get('courseLogo').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(file);
   }
 
 }

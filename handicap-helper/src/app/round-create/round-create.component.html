@@ -22,8 +22,12 @@
         </mat-form-field>
         <div>
             <button mat-raised-button color="accent" type="submit">Save Round</button>
+            <!-- REMOVE IMAGES LATER HERE -->
             <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
-            <input type="file" #filePicker>
+            <input type="file" #filePicker (change)="onImagedPicked($event)">
+        </div>
+        <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
+            <img [src]="imagePreview" [alt]="form.value.course">
         </div>
     </form>
 </mat-card>
