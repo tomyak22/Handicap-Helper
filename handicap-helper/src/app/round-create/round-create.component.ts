@@ -3,6 +3,7 @@ import { RoundsService } from '../services/rounds.service';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Round } from '../models/round.model';
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-round-create',
@@ -35,7 +36,7 @@ export class RoundCreateComponent implements OnInit {
       'slope': new FormControl(null, {validators: [Validators.required]}),
       'date': new FormControl(null, {validators: [Validators.required]}),
       // REMOVE IMAGES HERE LATER
-      'courseLogo': new FormControl(null, {validators: [Validators.required]})
+      'courseLogo': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
