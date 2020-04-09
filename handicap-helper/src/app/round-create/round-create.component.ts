@@ -80,7 +80,8 @@ export class RoundCreateComponent implements OnInit {
         this.form.value.course,
         this.form.value.rating,
         this.form.value.slope,
-        this.form.value.date
+        this.form.value.date,
+        this.form.value.courseLogo
       );
     } else {
       this.roundsService.updateRound(
