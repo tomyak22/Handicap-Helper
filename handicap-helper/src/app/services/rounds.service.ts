@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RoundsService {
   private rounds: Round[] = [];
-  private roundsUpdated = new Subject<Round[]>();
+  private roundsUpdated = new Subject<{rounds: Round[], roundsCount: number}>();
 
   constructor(
     private http: HttpClient,
@@ -27,10 +27,11 @@ export class RoundsService {
   /**
    * Gets all the rounds from the api on port 3000
    */
-  getRounds() {
-    this.http.get<{ message: string, rounds: any }>('http://localhost:3000/api/rounds')
+  getRounds(roundsPerPage: number, currentPage: number) {
+    const queryParams = `?pagesize=${roundsPerPage}&page=${currentPage}`;
+    this.http.get<{ message: string, rounds: any, maxRounds: number }>('http://localhost:3000/api/rounds' + queryParams)
       .pipe(map((data) => {
-        return data.rounds.map(round => {
+        return { rounds: data.rounds.map(round => {
           return {
             score: round.score,
             course: round.course,
@@ -38,12 +39,12 @@ export class RoundsService {
             slope: round.slope,
             date: round.date,
             id: round._id
-          }
-        });
+          };
+        }), maxRounds: data.maxRounds};
       }))
-      .subscribe((transformedRounds) => {
-        this.rounds = transformedRounds;
-        this.roundsUpdated.next([...this.rounds]);
+      .subscribe((transformedRoundsData) => {
+        this.rounds = transformedRoundsData.rounds;
+        this.roundsUpdated.next({rounds: [...this.rounds], roundsCount: transformedRoundsData.maxRounds});
       });
   }
 
@@ -81,10 +82,6 @@ export class RoundsService {
       .subscribe(data => {
         //DELETE LINE 82 WHEN YOU WANT TO REMOVE
         // const round: Round = {id: data.round.id, score: score, course: course, rating: rating, slope: slope, date: date};
-        const id = data.roundId;
-        round.id = id;
-        this.rounds.push(round);
-        this.roundsUpdated.next([...this.rounds]);
         this.router.navigate(['/']);
       });
   }
@@ -100,21 +97,11 @@ export class RoundsService {
     };
     this.http.put('http://localhost:3000/api/rounds/' + id, round)
       .subscribe(response => {
-        const updatedRounds = [...this.rounds];
-        const oldRoundIndex = updatedRounds.findIndex(r => r.id === round.id);
-        updatedRounds[oldRoundIndex] = round;
-        this.rounds = updatedRounds;
-        this.roundsUpdated.next([...this.rounds]);
         this.router.navigate(['/']);
       });
   }
 
   deleteRound(roundId: string) {
-    this.http.delete('http://localhost:3000/api/rounds/' + roundId)
-      .subscribe(() => {
-        const updatedRounds = this.rounds.filter(round => round.id !== roundId);
-        this.rounds = updatedRounds;
-        this.roundsUpdated.next([...this.rounds]);
-      });
+    return this.http.delete('http://localhost:3000/api/rounds/' + roundId);
   }
 }

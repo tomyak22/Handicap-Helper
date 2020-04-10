@@ -19,10 +19,10 @@ const storage = multer.diskStorage({
         cb(error, "backend/images");
     },
     filename: (req, file, cb) => {
-        const name =file.originalname.toLowerCase().split(' ').join('-');
+        const name = file.originalname.toLowerCase().split(' ').join('-');
         const ext = MIME_TYPE_MAP[file.mimetype];
         cb(null, name + '-' + Date.now() + '.' + ext);
-    } 
+    }
 });
 
 router.post('', (req, res, next) => {
@@ -52,17 +52,31 @@ router.put("/:id", (req, res, next) => {
         slope: req.body.slope,
         date: req.body.date
     });
-    Round.updateOne({_id: req.params.id}, round).then(result => {
-        res.status(200).json({message: "Update Successful!"});
+    Round.updateOne({ _id: req.params.id }, round).then(result => {
+        res.status(200).json({ message: "Update Successful!" });
     });
 })
 
 router.get('', (req, res, next) => {
-    Round.find()
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const roundQuery = Round.find();
+    let fetchedRounds;
+
+    if (pageSize && currentPage) {
+        roundQuery
+            .skip(pageSize * (currentPage - 1))
+            .limit(pageSize);
+    }
+    roundQuery
         .then(documents => {
+            fetchedRounds = documents;
+            return Round.count();
+        }).then(count => {
             res.status(200).json({
-                message: 'Rounds fetched correctly',
-                rounds: documents
+                message: "Rounds retrieved",
+                rounds: fetchedRounds,
+                maxRounds: count
             });
         });
 });
@@ -78,10 +92,10 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.delete("/:id", (req, res, next) => {
-    Round.deleteOne({_id: req.params.id}).then(result => {
+    Round.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
-        res.status(200).json({message: "Post Deleted!"});
-    }); 
+        res.status(200).json({ message: "Post Deleted!" });
+    });
 });
 
 module.exports = router;

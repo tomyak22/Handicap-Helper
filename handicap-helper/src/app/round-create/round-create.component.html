@@ -23,11 +23,11 @@
         <div>
             <button mat-raised-button color="accent" type="submit">Save Round</button>
             <!-- REMOVE IMAGES LATER HERE -->
-            <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
-            <input type="file" #filePicker (change)="onImagedPicked($event)">
+            <!-- <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button> -->
+            <!-- <input type="file" #filePicker (change)="onImagedPicked($event)"> -->
         </div>
-        <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('courseLogo').valid">
+        <!-- <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('courseLogo').valid">
             <img [src]="imagePreview" [alt]="form.value.course">
-        </div>
+        </div> -->
     </form>
 </mat-card>

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // import routers
 const roundsRoutes = require('./routes/rounds');
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb://localhost/HandicapHelperDB')
     .then(() => {
@@ -25,4 +26,5 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/rounds', roundsRoutes);
+app.use('/api/user', userRoutes);
 module.exports = app;
