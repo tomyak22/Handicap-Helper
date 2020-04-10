@@ -60,29 +60,29 @@ export class RoundsService {
   /**
    * Add a round to the local api running on node
    */
-  addRound(score: number, course: string, rating: number, slope: number, date: string, courseLogo: File) {
-    const roundData = new FormData();
-    roundData.append('score', score.toString());
-    roundData.append('course', course);
-    roundData.append('rating', rating.toString());
-    roundData.append('slope', slope.toString());
-    roundData.append('date', date);
-    roundData.append('courseLogo', courseLogo, course);
+  addRound(score: number, course: string, rating: number, slope: number, date: string) {
+    // const roundData = new FormData();
+    // roundData.append('score', score.toString());
+    // roundData.append('course', course);
+    // roundData.append('rating', rating.toString());
+    // roundData.append('slope', slope.toString());
+    // roundData.append('date', date);
+    // roundData.append('courseLogo', courseLogo, course);
     // UNCOMMENT HERE AND REMOVE THE LINES ABOVE
-    // const round: Round = {
-    //   id: null,
-    //   score: score,
-    //   course: course,
-    //   rating: rating,
-    //   slope: slope,
-    //   date: date
-    // };
-    this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', roundData)
+    const round: Round = {
+      id: null,
+      score: score,
+      course: course,
+      rating: rating,
+      slope: slope,
+      date: date
+    };
+    this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', round)
       .subscribe(data => {
         //DELETE LINE 82 WHEN YOU WANT TO REMOVE
-        const round: Round = {id: data.roundId, score: score, course: course, rating: rating, slope: slope, date: date};
-        // const id = data.roundId;
-        // round.id = id;
+        // const round: Round = {id: data.round.id, score: score, course: course, rating: rating, slope: slope, date: date};
+        const id = data.roundId;
+        round.id = id;
         this.rounds.push(round);
         this.roundsUpdated.next([...this.rounds]);
         this.router.navigate(['/']);

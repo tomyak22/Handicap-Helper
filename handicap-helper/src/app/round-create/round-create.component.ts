@@ -36,7 +36,7 @@ export class RoundCreateComponent implements OnInit {
       'slope': new FormControl(null, {validators: [Validators.required]}),
       'date': new FormControl(null, {validators: [Validators.required]}),
       // REMOVE IMAGES HERE LATER
-      'courseLogo': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
+      // 'courseLogo': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
@@ -80,8 +80,7 @@ export class RoundCreateComponent implements OnInit {
         this.form.value.course,
         this.form.value.rating,
         this.form.value.slope,
-        this.form.value.date,
-        this.form.value.courseLogo
+        this.form.value.date
       );
     } else {
       this.roundsService.updateRound(

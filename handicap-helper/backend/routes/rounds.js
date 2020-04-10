@@ -25,13 +25,15 @@ const storage = multer.diskStorage({
     } 
 });
 
-router.post('',multer({storage: storage}).single("courseLogo"), (req, res, next) => {
+router.post('', (req, res, next) => {
+    const url = req.protocol + '://' + req.get("host");
     const round = new Round({
         score: req.body.score,
         course: req.body.course,
         rating: req.body.rating,
         slope: req.body.slope,
-        date: req.body.date
+        date: req.body.date,
+        // imagePath: url + "/images" + req.file.filename
     });
     round.save().then(result => {
         res.status(201).json({
