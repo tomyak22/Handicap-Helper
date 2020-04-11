@@ -25,7 +25,9 @@ export class RoundsService {
   }
 
   /**
-   * Gets all the rounds from the api on port 3000
+   * Uses GET method from round.js to get the rounds from the api
+   * @param roundsPerPage number of rounds we wish to display per page
+   * @param currentPage the index of our current page
    */
   getRounds(roundsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${roundsPerPage}&page=${currentPage}`;
@@ -48,6 +50,10 @@ export class RoundsService {
       });
   }
 
+  /**
+   * Uses GET method from round.js in order to fetch one individual round from backend
+   * @param id id of the round we wish to retrieve
+   */
   getRound(id: string) {
     return this.http.get<{
       _id: string,
@@ -59,17 +65,15 @@ export class RoundsService {
   }
 
   /**
-   * Add a round to the local api running on node
+   * Adds a round using the POST method to create a new round using the api from
+   * node on the mid-tier.
+   * @param score the user's score for that round
+   * @param course course played for that round
+   * @param rating course rating used for handicap calc
+   * @param slope course slope used for the handicap calc
+   * @param date date the round was played
    */
   addRound(score: number, course: string, rating: number, slope: number, date: string) {
-    // const roundData = new FormData();
-    // roundData.append('score', score.toString());
-    // roundData.append('course', course);
-    // roundData.append('rating', rating.toString());
-    // roundData.append('slope', slope.toString());
-    // roundData.append('date', date);
-    // roundData.append('courseLogo', courseLogo, course);
-    // UNCOMMENT HERE AND REMOVE THE LINES ABOVE
     const round: Round = {
       id: null,
       score: score,
@@ -80,12 +84,19 @@ export class RoundsService {
     };
     this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', round)
       .subscribe(data => {
-        //DELETE LINE 82 WHEN YOU WANT TO REMOVE
-        // const round: Round = {id: data.round.id, score: score, course: course, rating: rating, slope: slope, date: date};
         this.router.navigate(['/']);
       });
   }
 
+  /**
+   * Uses PUT method from round.js in order to update a current round based on the id we use
+   * from the backend.
+   * @param score the user's score for that round
+   * @param course course played for that round
+   * @param rating course rating used for handicap calc
+   * @param slope course slope used for the handicap calc
+   * @param date date the round was played 
+   */
   updateRound(id: string, score: number, course: string, rating: number, slope: number, date: string) {
     const round: Round = {
       id: id,
@@ -101,6 +112,10 @@ export class RoundsService {
       });
   }
 
+  /**
+   * Uses DELETE method from node to remove an existing round from the database
+   * @param roundId id of the round we wish to delete
+   */
   deleteRound(roundId: string) {
     return this.http.delete('http://localhost:3000/api/rounds/' + roundId);
   }

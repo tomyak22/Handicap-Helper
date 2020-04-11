@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
+  // used for spinner
   isLoading = false;
 
   constructor(public authService: AuthService) { }
@@ -15,6 +16,11 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Method used for a user to sign-up for Handi-Tracker using
+   * AuthService.
+   * @param form for sign-up form
+   */
   onSignUp(form: NgForm) {
     if (form.invalid) {
       return;

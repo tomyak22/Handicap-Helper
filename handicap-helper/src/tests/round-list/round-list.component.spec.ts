@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoundListComponent } from './round-list.component';
+import { RoundListComponent } from '../../app/round-list/round-list.component';
 
 describe('RoundListComponent', () => {
   let component: RoundListComponent;

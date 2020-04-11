@@ -3,12 +3,14 @@ const multer = require('multer');
 const router = express.Router();
 const Round = require('../models/round');
 
+// mime map for accepted images
 const MIME_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpg',
     'image/jpg': 'jpg'
 };
 
+// where to store images using multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const isValid = MIME_TYPE_MAP[file.mimetype];
@@ -18,6 +20,7 @@ const storage = multer.diskStorage({
         }
         cb(error, "backend/images");
     },
+    // create file name to be stored in 'images'
     filename: (req, file, cb) => {
         const name = file.originalname.toLowerCase().split(' ').join('-');
         const ext = MIME_TYPE_MAP[file.mimetype];
@@ -25,6 +28,9 @@ const storage = multer.diskStorage({
     }
 });
 
+/**
+ * POST new round to the database with score, course, rating, slope, and date played.
+ */
 router.post('', (req, res, next) => {
     const url = req.protocol + '://' + req.get("host");
     const round = new Round({
@@ -43,6 +49,9 @@ router.post('', (req, res, next) => {
     });
 });
 
+/**
+ * PUT method to update and existing round by id. 
+ */
 router.put("/:id", (req, res, next) => {
     const round = new Round({
         _id: req.body.id,
@@ -57,6 +66,12 @@ router.put("/:id", (req, res, next) => {
     });
 })
 
+/**
+ * GET method in order to return rounds.
+ * If there is a pageSize and currentPage param, use the params to construct
+ * what is to be used on the front end. Round count is for the front end so
+ * we stop our paginator at the maxRounds in the database.
+ */
 router.get('', (req, res, next) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
@@ -81,6 +96,10 @@ router.get('', (req, res, next) => {
         });
 });
 
+/**
+ * GET method that returns a round by id.
+ * @param id for round id
+ */
 router.get('/:id', (req, res, next) => {
     Round.findById(req.params.id).then(round => {
         if (round) {
@@ -91,6 +110,10 @@ router.get('/:id', (req, res, next) => {
     })
 });
 
+/**
+ * DELETE method that deletes a round by id.
+ * @param id for round id
+ */
 router.delete("/:id", (req, res, next) => {
     Round.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);

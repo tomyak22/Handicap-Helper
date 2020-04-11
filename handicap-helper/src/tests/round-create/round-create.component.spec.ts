@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoundCreateComponent } from './round-create.component';
+import { RoundCreateComponent } from '../../app/round-create/round-create.component';
 
 describe('RoundCreateComponent', () => {
   let component: RoundCreateComponent;

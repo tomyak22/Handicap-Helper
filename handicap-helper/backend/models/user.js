@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-// creating schema for round
+// creating schema for user
 const userSchema = mongoose.Schema({
     // firstName: {type: String, required: true},
     // lastName: {type: String, required: true},

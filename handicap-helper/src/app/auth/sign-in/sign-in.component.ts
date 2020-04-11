@@ -15,6 +15,11 @@ export class SignInComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Uses AuthService to sign in a user based on email and password
+   * that comes from the NgForm
+   * @param form sign-in form
+   */
   onSignIn(form: NgForm) {
     if (form.invalid) {
       return;

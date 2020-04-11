@@ -22,6 +22,11 @@ export class RoundListComponent implements OnInit, OnDestroy {
     public roundsService: RoundsService
   ) { }
 
+  /**
+   * Subscribe to RoundsService to load in the rounds that we have
+   * in our database as well as the number of rounds we currently have
+   * for our paginator.
+   */
   ngOnInit(): void {
     this.isLoading = true;
     this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
@@ -33,6 +38,12 @@ export class RoundListComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Reloads in which rounds are to be displayed based on how many rounds we
+   * want to display and which page we are on.
+   * @param pageData to get the index of current page and the amount of
+   * rounds we want to display per page
+   */
   onChangedPage(pageData: PageEvent) {
     this.isLoading = true;
     this.currentPage = pageData.pageIndex + 1;
@@ -40,6 +51,11 @@ export class RoundListComponent implements OnInit, OnDestroy {
     this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
   }
 
+  /**
+   * Method that uses the DELETE method in Node to delete a round based on
+   * the round id.
+   * @param roundId id for the round we wish to delete
+   */
   onDelete(roundId: string) {
     this.isLoading = true;
     this.roundsService.deleteRound(roundId).subscribe(() => {

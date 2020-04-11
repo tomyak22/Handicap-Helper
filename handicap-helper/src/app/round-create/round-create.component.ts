@@ -11,6 +11,7 @@ import { mimeType } from './mime-type.validator';
   styleUrls: ['./round-create.component.css']
 })
 export class RoundCreateComponent implements OnInit {
+  // Variables to be used
   enteredScore = null;
   enteredCourse = '';
   enteredRating = null;
@@ -29,6 +30,9 @@ export class RoundCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    /**
+     * Set the form to null if there is no id in the params of the url.
+     */
     this.form = new FormGroup({
       'score': new FormControl(null, {validators: [Validators.required]}),
       'course': new FormControl(null, {validators: [Validators.required]}),
@@ -39,6 +43,11 @@ export class RoundCreateComponent implements OnInit {
       // 'courseLogo': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
 
+    /**
+     * If there is an id for the round in the url, subscribe and set the form
+     * to use the data from that specific round. This will set the mode to be edit
+     * to let us know that we are editing an existing round.
+     */
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('roundId')) {
         this.mode = 'edit';
@@ -69,6 +78,12 @@ export class RoundCreateComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds a round to the database. If we are in create mode (no id in the url),
+   * we will be using the POST method from Node. If we are updating an existing
+   * round (id in the url), we will use the PUT method from Node to update the
+   * round.
+   */
   onAddRound() {
     if (this.form.invalid) {
       return;
@@ -94,7 +109,7 @@ export class RoundCreateComponent implements OnInit {
     this.form.reset();
   }
 
-  // REMOVE LATER ON PLEASE
+  // Not in use as we do not upload an image for the course.
   onImagedPicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.form.patchValue({courseLogo: file});
