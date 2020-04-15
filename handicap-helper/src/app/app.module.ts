@@ -21,7 +21,8 @@ import { RoundCreateComponent } from './round-create/round-create.component';
 import { RoundListComponent } from './round-list/round-list.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 
 @NgModule({
@@ -50,7 +51,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatPaginatorModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
