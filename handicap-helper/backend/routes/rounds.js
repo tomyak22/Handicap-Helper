@@ -3,6 +3,9 @@ const multer = require('multer');
 const router = express.Router();
 const Round = require('../models/round');
 
+// Middleware for Auth
+const checkAuth = require('../middleware/check-auth');
+
 // mime map for accepted images
 const MIME_TYPE_MAP = {
     'image/png': 'png',
@@ -31,7 +34,7 @@ const storage = multer.diskStorage({
 /**
  * POST new round to the database with score, course, rating, slope, and date played.
  */
-router.post('', (req, res, next) => {
+router.post('', checkAuth, (req, res, next) => {
     const url = req.protocol + '://' + req.get("host");
     const round = new Round({
         score: req.body.score,
@@ -52,7 +55,7 @@ router.post('', (req, res, next) => {
 /**
  * PUT method to update and existing round by id. 
  */
-router.put("/:id", (req, res, next) => {
+router.put("/:id", checkAuth, (req, res, next) => {
     const round = new Round({
         _id: req.body.id,
         score: req.body.score,
@@ -114,7 +117,7 @@ router.get('/:id', (req, res, next) => {
  * DELETE method that deletes a round by id.
  * @param id for round id
  */
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", checkAuth, (req, res, next) => {
     Round.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
         res.status(200).json({ message: "Post Deleted!" });
