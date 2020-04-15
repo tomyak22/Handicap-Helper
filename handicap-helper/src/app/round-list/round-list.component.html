@@ -8,7 +8,7 @@
         <p>Course rating: {{round.rating}}</p>
         <p>Course slope: {{round.slope}}</p>
         <p>Date played: {{round.date}}</p>
-        <mat-action-row>
+        <mat-action-row *ngIf="userIsAuthenticated">
             <a mat-button color="primary" [routerLink]="['/edit/', round.id]">EDIT</a>
             <button mat-button color="warn" (click)="onDelete(round.id)">DELETE</button>
         </mat-action-row>

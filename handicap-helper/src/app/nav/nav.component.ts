@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit, OnDestroy {
+
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
 
@@ -22,6 +23,10 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authListenerSubs.unsubscribe();
+  }
+
+  onSignOut(): void {
+    this.authService.signOut();
   }
 
 }

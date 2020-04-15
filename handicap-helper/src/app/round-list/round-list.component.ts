@@ -3,6 +3,7 @@ import { Round } from '../models/round.model';
 import { Subscription } from 'rxjs';
 import { RoundsService } from '../services/rounds.service';
 import { PageEvent } from '@angular/material/paginator';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-round-list',
@@ -17,9 +18,12 @@ export class RoundListComponent implements OnInit, OnDestroy {
   roundsPerPage = 20;
   currentPage = 1;
   pageSizeOptions = [3, 5, 8, 15, 20];
+  private authListenerSubs: Subscription;
+  userIsAuthenticated = false;
 
   constructor(
-    public roundsService: RoundsService
+    public roundsService: RoundsService,
+    private authService: AuthService
   ) { }
 
   /**
@@ -35,6 +39,11 @@ export class RoundListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.totalRounds = roundsData.roundsCount;
         this.rounds = roundsData.rounds;
+      });
+    this.userIsAuthenticated = this.authService.getIsAuth();
+    this.authListenerSubs = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
       });
   }
 
@@ -65,6 +74,7 @@ export class RoundListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.roundsSub.unsubscribe();
+    this.authListenerSubs.unsubscribe();
   }
 
 }

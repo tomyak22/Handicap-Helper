@@ -24,6 +24,7 @@ export class SignInComponent implements OnInit {
     if (form.invalid) {
       return;
     }
+    this.isLoading = true;
     this.authService.signIn(form.value.email, form.value.password);
   }
 
