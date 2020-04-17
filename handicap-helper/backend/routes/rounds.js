@@ -42,7 +42,7 @@ router.post('', checkAuth, (req, res, next) => {
         rating: req.body.rating,
         slope: req.body.slope,
         date: req.body.date,
-        // imagePath: url + "/images" + req.file.filename
+        creator: req.userData.userId
     });
     round.save().then(result => {
         res.status(201).json({

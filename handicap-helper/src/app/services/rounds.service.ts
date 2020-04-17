@@ -40,7 +40,8 @@ export class RoundsService {
             rating: round.rating,
             slope: round.slope,
             date: round.date,
-            id: round._id
+            id: round._id,
+            creator: round.creator
           };
         }), maxRounds: data.maxRounds};
       }))
@@ -95,7 +96,7 @@ export class RoundsService {
    * @param course course played for that round
    * @param rating course rating used for handicap calc
    * @param slope course slope used for the handicap calc
-   * @param date date the round was played 
+   * @param date date the round was played
    */
   updateRound(id: string, score: number, course: string, rating: number, slope: number, date: string) {
     const round: Round = {

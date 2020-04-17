@@ -60,7 +60,8 @@ router.post('/sign-in', (req, res, next)=> {
                         process.env.HANDICAP_SECRET,
                         {expiresIn: '1h'});
                     return res.status(200).json({
-                        token: token
+                        token: token,
+                        expiresIn: 3600
                     });
                 })
                 .catch(err => {
