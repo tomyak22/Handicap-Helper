@@ -27,9 +27,8 @@ export class HandicapIndexComponent implements OnInit {
     this.roundsService.getRounds(null, null);
     this.roundsSub = this.roundsService.getRoundsUpdateListener()
       .subscribe((roundsData: {rounds: Round[], roundsCount: number}) => {
-        this.rounds = roundsData.rounds;
-        this.handicap = this.getHandicap(this.rounds);
         this.totalRounds = roundsData.roundsCount;
+        this.handicap = this.getHandicap(roundsData.rounds);
       });
 
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -49,15 +48,15 @@ export class HandicapIndexComponent implements OnInit {
     // and sort them from low to high
     if (this.totalRounds < 10) {
       for (const round of rounds) {
-        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+        totalHandicap += (round.score - round.rating) * 113 / round.slope;
       }
       differential = totalHandicap / this.totalRounds;
     }
     // if there are less than 10 rounds but more than 10 rounds played
     // we will calculate the handicap based on number of rounds played
-    if (this.totalRounds < 20 && this.totalRounds >= 10) {
+    else if (this.totalRounds < 20 && this.totalRounds >= 10) {
       for (const round of rounds) {
-        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+        totalHandicap += (round.score - round.rating) * 113 / round.slope;
       }
       differential = totalHandicap / this.totalRounds;
     }
@@ -65,11 +64,10 @@ export class HandicapIndexComponent implements OnInit {
     // and calculate the handicap with that.
     else {
       for (const round of rounds) {
-        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+        totalHandicap += (round.score - round.rating) * 113 / round.slope;
       }
       differential = totalHandicap / this.totalRounds;
     }
-
 
     return differential * 0.96;
   }
