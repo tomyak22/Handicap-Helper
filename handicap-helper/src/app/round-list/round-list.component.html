@@ -1,4 +1,5 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
+<app-handicap-index></app-handicap-index>
 <mat-accordion multi="true" *ngIf="rounds.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let round of rounds">
         <mat-expansion-panel-header>

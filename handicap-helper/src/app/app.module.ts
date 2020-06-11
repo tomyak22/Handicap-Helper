@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { HandicapIndexComponent } from './handicap-index/handicap-index.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     SignInComponent,
     SignUpComponent,
     RoundCreateComponent,
-    RoundListComponent
+    RoundListComponent,
+    HandicapIndexComponent
   ],
   imports: [
     BrowserModule,
