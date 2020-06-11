@@ -27,3 +27,6 @@ be sure to run setup.bat within /backend before running server.js
 
 **Random Key Generator**
 node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
+
+**Formula for Handicap**
+(Score – Course Rating) x 113 / Slope Rating

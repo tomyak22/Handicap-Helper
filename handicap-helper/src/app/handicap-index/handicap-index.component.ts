@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class HandicapIndexComponent implements OnInit {
   rounds: Round[] = [];
   round: Round;
-  averageScore;
+  handicap;
   private roundsSub: Subscription;
   totalRounds = 0;
   private authListenerSubs: Subscription;
@@ -28,7 +28,7 @@ export class HandicapIndexComponent implements OnInit {
     this.roundsSub = this.roundsService.getRoundsUpdateListener()
       .subscribe((roundsData: {rounds: Round[], roundsCount: number}) => {
         this.rounds = roundsData.rounds;
-        this.averageScore = this.getAverageTest(this.rounds);
+        this.handicap = this.getHandicap(this.rounds);
         this.totalRounds = roundsData.roundsCount;
       });
 
@@ -39,14 +39,39 @@ export class HandicapIndexComponent implements OnInit {
       });
   }
 
-  getAverageTest(rounds): number {
-    let totalScore = 0;
-    let averageScore = 0;
-    for (const round of rounds) {
-      totalScore += round.score;
-    };
-    averageScore = totalScore / this.totalRounds;
-    return averageScore;
+  getHandicap(rounds): number {
+    let handicap = 0;
+    let totalHandicap = 0;
+    let differential = 0;
+    // if there are less than 10 rounds played we will take the best score
+    // and calculate the handicap with that score only
+    // TODO put in logic to make a copy of the scores into a new array
+    // and sort them from low to high
+    if (this.totalRounds < 10) {
+      for (const round of rounds) {
+        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+      }
+      differential = totalHandicap / this.totalRounds;
+    }
+    // if there are less than 10 rounds but more than 10 rounds played
+    // we will calculate the handicap based on number of rounds played
+    if (this.totalRounds < 20 && this.totalRounds >= 10) {
+      for (const round of rounds) {
+        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+      }
+      differential = totalHandicap / this.totalRounds;
+    }
+    // If there are more than 20 rounds played we will take the best 10 scores
+    // and calculate the handicap with that.
+    else {
+      for (const round of rounds) {
+        totalHandicap = (round.score - round.rating) * 113 / round.rating;
+      }
+      differential = totalHandicap / this.totalRounds;
+    }
+
+
+    return differential * 0.96;
   }
 
 }
