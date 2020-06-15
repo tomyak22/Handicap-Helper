@@ -39,8 +39,9 @@ export class HandicapIndexComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param rounds 
+   * Calculates Handicap of the user based on the previous 20 rounds OR if the user has less
+   * it will be based on the number of rounds played
+   * @param rounds the user has played from the service
    */
   getHandicap(rounds): number {
     let handicap = 0;
@@ -66,8 +67,9 @@ export class HandicapIndexComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param differentials 
+   * Calculates the Average of differentials based on the number of rounds played by
+   * the user
+   * @param differentials from the user's last N rounds
    */
   getAverageOfNDifferentials(differentials): number {
     let lowestDifferentials = 0;
@@ -105,9 +107,9 @@ export class HandicapIndexComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param rounds 
-   * @param nRounds 
+   * Gets the last 20 rounds played by the user sorted by the date that it was played
+   * @param rounds played by the user
+   * @param nRounds max of 20 rounds
    */
   getLastNRounds(rounds: Round[], nRounds): Round[] {
     let latestRounds: Round[];
@@ -124,6 +126,11 @@ export class HandicapIndexComponent implements OnInit {
     return latestRounds;
   }
 
+  /**
+   * Rounds the variable to a specific decimal place
+   * @param value to be rounded
+   * @param decimals amount of places to be rounded to
+   */
   roundValue(value, decimals) {
     return Number(Math.round(Number(value + 'e' + decimals)) + 'e-' + decimals);
   }
