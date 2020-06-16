@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Round } from '../models/round.model';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -51,6 +51,27 @@ export class RoundsService {
       });
   }
 
+  /**
+   * Gets the last 20 rounds played from a user
+   */
+  getLatestTwentyRounds(): Observable<Round[]>  {
+    return this.http.get< { message: string, rounds: any }>('http://localhost:3000/api/rounds/lastTwentyRounds')
+      .pipe(map((data) => {
+        return data.rounds.map(round => {
+          return {
+            score: round.score,
+            course: round.course,
+            rating: round.rating,
+            slope: round.slope,
+            date: round.date,
+            id: round._id,
+            creator: round.creator
+          };
+        });
+      }));
+  }
+
+  // TODO: See if we can replace with the Object Round
   /**
    * Uses GET method from round.js in order to fetch one individual round from backend
    * @param id id of the round we wish to retrieve

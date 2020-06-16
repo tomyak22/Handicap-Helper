@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RoundsService } from '../services/rounds.service';
 import { AuthService } from '../services/auth.service';
 import { Round } from '../models/round.model';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-handicap-index',
@@ -28,7 +29,7 @@ export class HandicapIndexComponent implements OnInit {
     this.roundsSub = this.roundsService.getRoundsUpdateListener()
       .subscribe((roundsData: { rounds: Round[], roundsCount: number }) => {
         this.totalRounds = roundsData.roundsCount;
-        this.handicap = this.getHandicap(roundsData.rounds);
+        this.handicap = this.getHandicap();
       });
 
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -43,13 +44,14 @@ export class HandicapIndexComponent implements OnInit {
    * it will be based on the number of rounds played
    * @param rounds the user has played from the service
    */
-  getHandicap(rounds): number {
+  getHandicap(): Observable<number> {
     let handicap = 0;
-    const previousTwentyRounds = this.getLastNRounds(rounds, 20);
-    const differentials = this.getDifferentials(rounds);
-    const averageDifferential = this.getAverageOfNDifferentials(differentials);
-    handicap = this.roundValue((averageDifferential * 0.96), 1);
-    return handicap;
+    return this.roundsService.getLatestTwentyRounds().pipe(map(rounds => {
+      const differentials = this.getDifferentials(rounds);
+      const averageDifferential = this.getAverageOfNDifferentials(differentials);
+      handicap = this.roundValue((averageDifferential * 0.96), 1);
+      return handicap;
+    }));
   }
 
   /**
@@ -104,26 +106,6 @@ export class HandicapIndexComponent implements OnInit {
     }
     const averageDifferential = differentialsSum / lowestDifferentials;
     return averageDifferential;
-  }
-
-  /**
-   * Gets the last 20 rounds played by the user sorted by the date that it was played
-   * @param rounds played by the user
-   * @param nRounds max of 20 rounds
-   */
-  getLastNRounds(rounds: Round[], nRounds): Round[] {
-    let latestRounds: Round[];
-    rounds.sort((round1, round2) => {
-      if (new Date(round1.date) < new Date(round2.date)) {
-        return 1;
-      }
-      if (new Date(round1.date) > new Date(round2.date)) {
-        return -1;
-      }
-      return 0;
-    });
-    latestRounds = rounds.slice(0, nRounds);
-    return latestRounds;
   }
 
   /**

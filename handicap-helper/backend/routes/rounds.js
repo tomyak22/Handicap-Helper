@@ -100,6 +100,21 @@ router.get('', (req, res, next) => {
 });
 
 /**
+ * GET method that returns the last 20 rounds sorted
+ * by the date played
+ */
+router.get('/lastTwentyRounds', (req, res, next) => {
+    let fetchedRounds
+    Round.find({}).sort({date: 'descending'}).limit(20).exec(function(err, documents) { 
+        //TODO: throw error
+        res.status(200).json({
+            message: "Last 20 rounds retrieved",
+            rounds: documents
+        });
+    });
+});
+
+/**
  * GET method that returns a round by id.
  * @param id for round id
  */
