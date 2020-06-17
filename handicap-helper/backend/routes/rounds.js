@@ -78,12 +78,12 @@ router.put("/:id", checkAuth, (req, res, next) => {
  * GET method in order to return rounds.
  * If there is a pageSize and currentPage param, use the params to construct
  * what is to be used on the front end. Round count is for the front end so
- * we stop our paginator at the maxRounds in the database.
+ * we stop our paginator at the nRounds in the database.
  */
-router.get('', (req, res, next) => {
+router.get('', checkAuth, (req, res, next) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
-    const roundQuery = Round.find();
+    const roundQuery = Round.find({creator: req.userData.userId});
     let fetchedRounds;
 
     if (pageSize && currentPage) {
@@ -94,12 +94,12 @@ router.get('', (req, res, next) => {
     roundQuery
         .then(documents => {
             fetchedRounds = documents;
-            return Round.count();
+            return Round.count({creator: req.userData.userId});
         }).then(count => {
             res.status(200).json({
                 message: "Rounds retrieved",
                 rounds: fetchedRounds,
-                maxRounds: count
+                nRounds: count
             });
         });
 });
@@ -108,9 +108,9 @@ router.get('', (req, res, next) => {
  * GET method that returns the last 20 rounds sorted
  * by the date played
  */
-router.get('/lastTwentyRounds', (req, res, next) => {
+router.get('/lastTwentyRounds', checkAuth, (req, res, next) => {
     let fetchedRounds
-    Round.find({}).sort({date: 'descending'}).limit(20).exec(function(err, documents) { 
+    Round.find({creator: req.userData.userId}).sort({date: 'descending'}).limit(20).exec(function(err, documents) { 
         //TODO: throw error
         res.status(200).json({
             message: "Last 20 rounds retrieved",
@@ -123,12 +123,13 @@ router.get('/lastTwentyRounds', (req, res, next) => {
  * GET method that returns a round by id.
  * @param id for round id
  */
-router.get('/:id', (req, res, next) => {
-    Round.findById(req.params.id).then(round => {
-        if (round) {
+router.get('/:id', checkAuth,(req, res, next) => {
+    Round.find({_id: req.params.id, creator: req.userData.userId}).then(round => {
+        if (round.length !== 0) {
+            console.log(round);
             res.status(200).json(round);
         } else {
-            res.status(404);
+            res.sendStatus(404);
         }
     })
 });

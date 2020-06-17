@@ -31,7 +31,7 @@ export class RoundsService {
    */
   getRounds(roundsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${roundsPerPage}&page=${currentPage}`;
-    this.http.get<{ message: string, rounds: any, maxRounds: number }>('http://localhost:3000/api/rounds' + queryParams)
+    this.http.get<{ message: string, rounds: any, nRounds: number }>('http://localhost:3000/api/rounds' + queryParams)
       .pipe(map((data) => {
         return { rounds: data.rounds.map(round => {
           return {
@@ -43,11 +43,11 @@ export class RoundsService {
             id: round._id,
             creator: round.creator
           };
-        }), maxRounds: data.maxRounds};
+        }), nRounds: data.nRounds};
       }))
       .subscribe((transformedRoundsData) => {
         this.rounds = transformedRoundsData.rounds;
-        this.roundsUpdated.next({rounds: [...this.rounds], roundsCount: transformedRoundsData.maxRounds});
+        this.roundsUpdated.next({rounds: [...this.rounds], roundsCount: transformedRoundsData.nRounds});
       });
   }
 
