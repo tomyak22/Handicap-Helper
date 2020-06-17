@@ -62,10 +62,15 @@ router.put("/:id", checkAuth, (req, res, next) => {
         course: req.body.course,
         rating: req.body.rating,
         slope: req.body.slope,
-        date: req.body.date
+        date: req.body.date,
+        creator: req.userData.userId
     });
-    Round.updateOne({ _id: req.params.id }, round).then(result => {
-        res.status(200).json({ message: "Update Successful!" });
+    Round.updateOne({ _id: req.params.id, creator: req.userData.userId }, round).then(result => {
+        if (result.nModified > 0) {
+            res.status(200).json({ message: "Update Successful!" });
+        } else {
+            res.status(401).json({ message: "User Not Authorized!" });
+        }
     });
 })
 
@@ -133,9 +138,12 @@ router.get('/:id', (req, res, next) => {
  * @param id for round id
  */
 router.delete("/:id", checkAuth, (req, res, next) => {
-    Round.deleteOne({ _id: req.params.id }).then(result => {
-        console.log(result);
-        res.status(200).json({ message: "Post Deleted!" });
+    Round.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
+        if (result.n > 0) {
+            res.status(200).json({ message: "Update Successful!" });
+        } else {
+            res.status(401).json({ message: "User Not Authorized!" });
+        }
     });
 });
 

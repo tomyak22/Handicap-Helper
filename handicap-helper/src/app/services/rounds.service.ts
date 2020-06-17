@@ -83,7 +83,8 @@ export class RoundsService {
       course: string,
       slope: number,
       rating: number,
-      date: string}>('http://localhost:3000/api/rounds/' + id);
+      date: string,
+      creator: string}>('http://localhost:3000/api/rounds/' + id);
   }
 
   /**
@@ -102,7 +103,8 @@ export class RoundsService {
       course: course,
       rating: rating,
       slope: slope,
-      date: date
+      date: date,
+      creator: null
     };
     this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', round)
       .subscribe(data => {
@@ -126,7 +128,8 @@ export class RoundsService {
       course: course,
       rating: rating,
       slope: slope,
-      date: date
+      date: date,
+      creator: null
     };
     this.http.put('http://localhost:3000/api/rounds/' + id, round)
       .subscribe(response => {

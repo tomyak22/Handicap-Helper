@@ -61,7 +61,8 @@ export class RoundCreateComponent implements OnInit {
             course: data.course,
             rating: data.rating,
             slope: data.slope,
-            date: data.date
+            date: data.date,
+            creator: data.creator
           };
           this.form.setValue({
             'score': this.round.score,

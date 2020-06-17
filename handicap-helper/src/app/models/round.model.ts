@@ -8,4 +8,5 @@ export interface Round {
     rating: number;
     slope: number;
     date: string;
+    creator: string;
 }

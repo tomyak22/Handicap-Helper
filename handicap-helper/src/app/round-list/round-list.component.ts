@@ -20,6 +20,7 @@ export class RoundListComponent implements OnInit, OnDestroy {
   pageSizeOptions = [3, 5, 8, 15, 20];
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
+  userId: string;
 
   constructor(
     public roundsService: RoundsService,
@@ -34,6 +35,7 @@ export class RoundListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
+    this.userId = this.authService.getUserId();
     this.roundsSub = this.roundsService.getRoundsUpdateListener()
       .subscribe((roundsData: {rounds: Round[], roundsCount: number}) => {
         this.isLoading = false;
@@ -44,6 +46,7 @@ export class RoundListComponent implements OnInit, OnDestroy {
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
       });
   }
 
