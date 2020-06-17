@@ -49,9 +49,10 @@ export class AuthService {
    * @param email email input from the user
    * @param password password input from the user
    */
-  createUser(email: string, password: string) {
+  createUser(firstName: string, lastName: string, email: string, password: string) {
+    const userData = {firstName, lastName, email, password};
     const authData: AuthData = {email: email, password: password};
-    this.http.post('http://localhost:3000/api/user/sign-up', authData)
+    this.http.post('http://localhost:3000/api/user/sign-up', userData)
       .subscribe(response => {
         // TODO: Add welcome message to new user with a popup******
         this.signIn(authData.email, authData.password);
@@ -66,7 +67,7 @@ export class AuthService {
    */
   signIn(email: string, password: string) {
     const authData: AuthData = {email: email, password: password};
-    this.http.post<{token: string, expiresIn: number, userId: string}>('http://localhost:3000/api/user/sign-in', authData)
+    this.http.post<{token: string, expiresIn: number, userId: string, firstName: string, lastName: string}>('http://localhost:3000/api/user/sign-in', authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -75,6 +76,7 @@ export class AuthService {
           this.setAuthTimer(expiresInDuration);
           this.isAuthenticated = true;
           this.userId = response.userId;
+          // CAN NOW ACCESS FIRST AND LAST NAME
           this.authStatusListener.next(true);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
