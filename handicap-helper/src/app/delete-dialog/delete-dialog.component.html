@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Are you sure you want to delete this round?</h1>
+<div mat-dialog-content>This round will be removed and not counted towards your handicap.</div>
+<div mat-dialog-actions>
+    <button (click)="confirmDelete()" mat-button color="warn" mat-dialog-close>Delete</button>
+    <button (click)="cancelDelete()" mat-button mat-dialog-close>Cancel</button>
+</div>

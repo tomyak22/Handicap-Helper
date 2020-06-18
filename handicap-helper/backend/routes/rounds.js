@@ -124,7 +124,7 @@ router.get('/lastTwentyRounds', checkAuth, (req, res, next) => {
  * @param id for round id
  */
 router.get('/:id', checkAuth,(req, res, next) => {
-    Round.find({_id: req.params.id, creator: req.userData.userId}).then(round => {
+    Round.findOne({_id: req.params.id, creator: req.userData.userId}).then(round => {
         if (round.length !== 0) {
             console.log(round);
             res.status(200).json(round);

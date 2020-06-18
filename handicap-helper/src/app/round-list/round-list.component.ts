@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs';
 import { RoundsService } from '../services/rounds.service';
 import { PageEvent } from '@angular/material/paginator';
 import { AuthService } from '../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-round-list',
@@ -24,7 +27,9 @@ export class RoundListComponent implements OnInit, OnDestroy {
 
   constructor(
     public roundsService: RoundsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertMessage: MatSnackBar,
+    private deleteDialog: MatDialog
   ) { }
 
   /**
@@ -71,7 +76,17 @@ export class RoundListComponent implements OnInit, OnDestroy {
   onDelete(roundId: string) {
     this.isLoading = true;
     this.roundsService.deleteRound(roundId).subscribe(() => {
+      this.alertMessage.open('Round Deleted!', null, { duration: 2000 });
       this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
+    });
+  }
+
+  confirmDelete(roundId: string) {
+    const dialogResponse = this.deleteDialog.open(DeleteDialogComponent);
+    dialogResponse.afterClosed().subscribe(result => {
+      if(result.deleteResponse) {
+        this.onDelete(roundId);
+      }
     });
   }
 

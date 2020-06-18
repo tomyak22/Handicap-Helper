@@ -11,6 +11,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +26,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { HandicapIndexComponent } from './handicap-index/handicap-index.component';
+import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
 
 
 @NgModule({
@@ -34,7 +37,8 @@ import { HandicapIndexComponent } from './handicap-index/handicap-index.componen
     SignUpComponent,
     RoundCreateComponent,
     RoundListComponent,
-    HandicapIndexComponent
+    HandicapIndexComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,9 @@ import { HandicapIndexComponent } from './handicap-index/handicap-index.componen
     MatMenuModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

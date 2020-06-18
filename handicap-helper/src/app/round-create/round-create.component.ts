@@ -4,6 +4,7 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Round } from '../models/round.model';
 import { mimeType } from './mime-type.validator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-round-create',
@@ -26,7 +27,8 @@ export class RoundCreateComponent implements OnInit {
 
   constructor(
     public roundsService: RoundsService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private alertMessage: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class RoundCreateComponent implements OnInit {
         this.roundsService.getRound(this.roundId).subscribe(data => {
           this.isLoading = false;
           this.round = {
+            // WHY DOES THIS HAVE TO BE AT INDEX 0
             id: data._id,
             score: data.score,
             course: data.course,
@@ -120,6 +123,13 @@ export class RoundCreateComponent implements OnInit {
       this.imagePreview = reader.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  /**
+   * Alert Message for user when they save a round
+   */
+  roundSavedMessage() {
+    this.alertMessage.open('Round Saved!', null, { duration: 2000 });
   }
 
 }
