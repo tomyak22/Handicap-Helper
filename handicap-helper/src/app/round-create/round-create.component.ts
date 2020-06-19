@@ -58,7 +58,6 @@ export class RoundCreateComponent implements OnInit {
         this.roundsService.getRound(this.roundId).subscribe(data => {
           this.isLoading = false;
           this.round = {
-            // WHY DOES THIS HAVE TO BE AT INDEX 0
             id: data._id,
             score: data.score,
             course: data.course,
@@ -74,6 +73,9 @@ export class RoundCreateComponent implements OnInit {
             'slope': this.round.slope,
             'date': this.round.date
           });
+        },
+        err => {
+          console.log(err);
         });
       } else {
         this.mode = 'create';
