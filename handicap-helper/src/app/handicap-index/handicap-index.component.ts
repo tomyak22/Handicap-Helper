@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RoundsService } from '../services/rounds.service';
 import { AuthService } from '../services/auth.service';
 import { Round } from '../models/round.model';
@@ -10,13 +10,13 @@ import { map } from 'rxjs/operators';
   templateUrl: './handicap-index.component.html',
   styleUrls: ['./handicap-index.component.css']
 })
-export class HandicapIndexComponent implements OnInit {
+export class HandicapIndexComponent implements OnInit, OnDestroy {
   rounds: Round[] = [];
   round: Round;
   handicap;
   private roundsSub: Subscription;
-  totalRounds = 0;
   private authListenerSubs: Subscription;
+  private handicapListenerSubs: Subscription;
   userIsAuthenticated = false;
 
   constructor(
@@ -25,18 +25,23 @@ export class HandicapIndexComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.roundsService.getRounds(null, null);
-    this.roundsSub = this.roundsService.getRoundsUpdateListener()
-      .subscribe((roundsData: { rounds: Round[], roundsCount: number }) => {
-        this.totalRounds = roundsData.roundsCount;
-        this.handicap = this.getHandicap();
-      });
-
+    this.updateHandicap();
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
+    this.handicapListenerSubs = this.roundsService.updateHandicap.subscribe(() => {
+      this.updateHandicap();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.handicapListenerSubs.unsubscribe();
+  }
+
+  updateHandicap(): void {
+    this.handicap = this.getHandicap();
   }
 
   /**
@@ -75,28 +80,29 @@ export class HandicapIndexComponent implements OnInit {
    */
   getAverageOfNDifferentials(differentials): number {
     let lowestDifferentials = 0;
-    if (this.totalRounds <= 5) {
+    const totalRounds = differentials.length;
+    if (totalRounds <= 5) {
       lowestDifferentials = 1;
     }
-    else if (this.totalRounds <= 8) {
+    else if (totalRounds <= 8) {
       lowestDifferentials = 2;
     }
-    else if (this.totalRounds <= 11) {
+    else if (totalRounds <= 11) {
       lowestDifferentials = 3;
     }
-    else if (this.totalRounds <= 14) {
+    else if (totalRounds <= 14) {
       lowestDifferentials = 4;
     }
-    else if (this.totalRounds <= 16) {
+    else if (totalRounds <= 16) {
       lowestDifferentials = 5;
     }
-    else if (this.totalRounds <= 18) {
+    else if (totalRounds <= 18) {
       lowestDifferentials = 6;
     }
-    else if (this.totalRounds === 19) {
+    else if (totalRounds === 19) {
       lowestDifferentials = 7;
     }
-    else if (this.totalRounds >= 20) {
+    else if (totalRounds >= 20) {
       lowestDifferentials = 8;
     }
 

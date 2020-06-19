@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Round } from '../models/round.model';
 import { Subscription } from 'rxjs';
 import { RoundsService } from '../services/rounds.service';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
 import { AuthService } from '../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ export class RoundListComponent implements OnInit, OnDestroy {
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
   userId: string;
+  @ViewChild('roundsPaginator') paginator: MatPaginator;
 
   constructor(
     public roundsService: RoundsService,
@@ -77,7 +78,10 @@ export class RoundListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.roundsService.deleteRound(roundId).subscribe(() => {
       this.alertMessage.open('Round Deleted!', null, { duration: 2000 });
+      this.totalRounds = this.totalRounds - 1;
+      this.paginator.firstPage();
       this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
+      this.roundsService.updateHandicap.next();
     });
   }
 

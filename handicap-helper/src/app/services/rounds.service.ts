@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class RoundsService {
   private rounds: Round[] = [];
   private roundsUpdated = new Subject<{rounds: Round[], roundsCount: number}>();
+  public updateHandicap = new Subject<void>();
 
   constructor(
     private http: HttpClient,

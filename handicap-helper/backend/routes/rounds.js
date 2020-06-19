@@ -83,7 +83,7 @@ router.put("/:id", checkAuth, (req, res, next) => {
 router.get('', checkAuth, (req, res, next) => {
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;
-    const roundQuery = Round.find({creator: req.userData.userId});
+    const roundQuery = Round.find({creator: req.userData.userId}).sort({date: 'descending'});
     let fetchedRounds;
 
     if (pageSize && currentPage) {
