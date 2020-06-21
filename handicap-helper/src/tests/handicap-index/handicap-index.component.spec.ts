@@ -8,9 +8,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Round } from 'src/app/models/round.model';
 import { of } from 'rxjs';
 import { DebugElement } from '@angular/core';
-import { doesNotReject } from 'assert';
-
-
 
 describe('HandicapIndexComponent', () => {
   let component: HandicapIndexComponent;
@@ -62,6 +59,22 @@ describe('HandicapIndexComponent', () => {
     let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock20Rounds));
     component.getHandicap().subscribe(handicap => {
       expect(handicap).toEqual(22.3);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 5 or less rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock5Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(15.4);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 6-8 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock8Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(17.7);
     });
     expect(mockRoundsServiceSpy).toHaveBeenCalled();
   });
