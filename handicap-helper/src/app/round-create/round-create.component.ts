@@ -115,18 +115,6 @@ export class RoundCreateComponent implements OnInit {
     this.form.reset();
   }
 
-  // Not in use as we do not upload an image for the course.
-  onImagedPicked(event: Event) {
-    const file = (event.target as HTMLInputElement).files[0];
-    this.form.patchValue({courseLogo: file});
-    this.form.get('courseLogo').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-
   /**
    * Alert Message for user when they save a round
    */
