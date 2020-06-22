@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 // import routers
@@ -17,6 +18,7 @@ mongoose.connect('mongodb://localhost/HandicapHelperDB')
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");

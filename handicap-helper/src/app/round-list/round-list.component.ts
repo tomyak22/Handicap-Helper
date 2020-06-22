@@ -81,7 +81,6 @@ export class RoundListComponent implements OnInit, OnDestroy {
       this.totalRounds = this.totalRounds - 1;
       this.paginator.firstPage();
       this.roundsService.getRounds(this.roundsPerPage, this.currentPage);
-      this.roundsService.updateHandicap.next();
     });
   }
 

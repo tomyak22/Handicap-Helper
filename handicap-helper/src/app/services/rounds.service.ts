@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Round } from '../models/round.model';
 import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 export class RoundsService {
   private rounds: Round[] = [];
   private roundsUpdated = new Subject<{rounds: Round[], roundsCount: number}>();
-  public updateHandicap = new Subject<void>();
+  private roundWasAddedSubject = new Subject<void>();
+  public roundWasAdded$: Observable<void> = this.roundWasAddedSubject;
 
   constructor(
     private http: HttpClient,
@@ -109,6 +110,7 @@ export class RoundsService {
     };
     this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', round)
       .subscribe(data => {
+        this.roundWasAddedSubject.next();
         this.router.navigate(['/']);
       });
   }
@@ -134,6 +136,7 @@ export class RoundsService {
     };
     this.http.put('http://localhost:3000/api/rounds/' + id, round)
       .subscribe(response => {
+        this.roundWasAddedSubject.next();
         this.router.navigate(['/']);
       });
   }
@@ -143,6 +146,9 @@ export class RoundsService {
    * @param roundId id of the round we wish to delete
    */
   deleteRound(roundId: string) {
-    return this.http.delete('http://localhost:3000/api/rounds/' + roundId);
+    return this.http.delete('http://localhost:3000/api/rounds/' + roundId)
+    .pipe(tap(response => {
+      this.roundWasAddedSubject.next();
+    }));
   }
 }

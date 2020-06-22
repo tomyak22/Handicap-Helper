@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+// Middleware for Auth
+const checkAuth = require('../middleware/check-auth');
+
 /**
  * POST method that signs a user up for Handi-Tracker
  * Encrypts password using bcrypt
@@ -15,7 +18,8 @@ router.post('/sign-up', (req, res, next) => {
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 email: req.body.email,
-                password: hash
+                password: hash,
+                handicap: null
             });
             user.save()
                 .then(result => {
@@ -64,7 +68,8 @@ router.post('/sign-in', (req, res, next)=> {
                         expiresIn: 3600,
                         userId: fetchedUser._id,
                         firstName: fetchedUser.firstName,
-                        lastName: fetchedUser.lastName
+                        lastName: fetchedUser.lastName,
+                       // handicap: fetchedUser.handicap
                     });
                 })
                 .catch(err => {
@@ -74,6 +79,24 @@ router.post('/sign-in', (req, res, next)=> {
                     });
                 });
         });
+});
+
+router.get('/handicap', checkAuth, (req, res, next) => {
+    let fetchedUser;
+    User.findOne({_id: req.userData.userId}).then(user => {
+        console.log(user.handicap);
+        res.status(200).json({handicap: user.handicap});
+    })
+});
+
+router.put('/handicap', checkAuth, (req, res, next) => {
+    User.findOne({_id: req.userData.userId}).then(user => {
+        console.log('This is what is being sent: ' + req.body.handicap);
+        user.handicap = req.body.handicap;
+        user.save().then(result => {
+            res.status(200).json({message: "Handicap Updated!"});
+        });
+    });
 });
 
 module.exports = router;

@@ -109,7 +109,7 @@ router.get('', checkAuth, (req, res, next) => {
  * by the date played
  */
 router.get('/lastTwentyRounds', checkAuth, (req, res, next) => {
-    let fetchedRounds
+    let fetchedRounds;
     Round.find({creator: req.userData.userId}).sort({date: 'descending'}).limit(20).exec(function(err, documents) { 
         //TODO: throw error
         res.status(200).json({

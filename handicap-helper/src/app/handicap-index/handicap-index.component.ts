@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { Round } from '../models/round.model';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HandicapService } from '../services/handicap.service';
 
 @Component({
   selector: 'app-handicap-index',
@@ -21,18 +22,29 @@ export class HandicapIndexComponent implements OnInit, OnDestroy {
 
   constructor(
     public roundsService: RoundsService,
-    private authService: AuthService
+    private authService: AuthService,
+    public handicapService: HandicapService
   ) { }
 
   ngOnInit(): void {
-    this.updateHandicap();
+    this.handicapService.getHandicap()
+      .subscribe(handicap => {
+        this.handicap = handicap;
+      });
     this.userIsAuthenticated = this.authService.getIsAuth();
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.handicapListenerSubs = this.roundsService.updateHandicap.subscribe(() => {
-      this.updateHandicap();
+    this.handicapListenerSubs = this.roundsService.roundWasAdded$.subscribe(() => {
+      this.calculateHandicap()
+          .subscribe(handicapAdjusted => {
+            this.handicap = handicapAdjusted;
+            this.handicapService.updateHandicap(handicapAdjusted)
+              .subscribe((response: {message: string}) => {
+                console.log(response.message);
+              });
+          });
     });
   }
 
@@ -40,16 +52,12 @@ export class HandicapIndexComponent implements OnInit, OnDestroy {
     this.handicapListenerSubs.unsubscribe();
   }
 
-  updateHandicap(): void {
-    this.handicap = this.getHandicap();
-  }
-
   /**
    * Calculates Handicap of the user based on the previous 20 rounds OR if the user has less
    * it will be based on the number of rounds played
    * @param rounds the user has played from the service
    */
-  getHandicap(): Observable<number> {
+  calculateHandicap(): Observable<number> {
     let handicap = 0;
     return this.roundsService.getLatestTwentyRounds().pipe(map(rounds => {
       const differentials = this.getDifferentials(rounds);
@@ -66,7 +74,10 @@ export class HandicapIndexComponent implements OnInit, OnDestroy {
   getDifferentials(rounds): number[] {
     const differentials = [];
     for (const round of rounds) {
-      const differential = (round.score - round.rating) * 113 / round.slope;
+      const differential = (round.score - round.rating) * (113 / round.slope);
+      // if (this.handicap !== null) {
+      //   this.exceptionalScoreAdjust(differential);
+      // }
       differentials.push(differential);
     }
     differentials.sort();
@@ -113,6 +124,14 @@ export class HandicapIndexComponent implements OnInit, OnDestroy {
     const averageDifferential = differentialsSum / lowestDifferentials;
     return averageDifferential;
   }
+
+  // exceptionalScoreAdjust(differential): number {
+  //   this.handicap.subscribe(handicap => {
+  //     if (handicap - differential <= 7.0 && handicap - differential < 10.0) {
+
+  //     }
+  //   });
+  // }
 
   /**
    * Rounds the variable to a specific decimal place
