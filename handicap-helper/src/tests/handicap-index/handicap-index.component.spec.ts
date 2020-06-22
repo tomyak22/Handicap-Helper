@@ -58,7 +58,7 @@ describe('HandicapIndexComponent', () => {
   it('should calculate the correct handicap for 20 rounds', () => {
     let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock20Rounds));
     component.getHandicap().subscribe(handicap => {
-      expect(handicap).toEqual(22.3);
+      expect(handicap).toEqual(22.5);
     });
     expect(mockRoundsServiceSpy).toHaveBeenCalled();
   });
@@ -66,7 +66,7 @@ describe('HandicapIndexComponent', () => {
   it('should calculate the correct handicap for 5 or less rounds', () => {
     let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock5Rounds));
     component.getHandicap().subscribe(handicap => {
-      expect(handicap).toEqual(15.4);
+      expect(handicap).toEqual(16.3);
     });
     expect(mockRoundsServiceSpy).toHaveBeenCalled();
   });
@@ -74,7 +74,47 @@ describe('HandicapIndexComponent', () => {
   it('should calculate the correct handicap for 6-8 rounds', () => {
     let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock8Rounds));
     component.getHandicap().subscribe(handicap => {
-      expect(handicap).toEqual(17.7);
+      expect(handicap).toEqual(18.1);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 9-11 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock11Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(20.0);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 12-14 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock14Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(20.5);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 15-16 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock16Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(21.2);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 17-18 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock18Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(21.7);
+    });
+    expect(mockRoundsServiceSpy).toHaveBeenCalled();
+  });
+
+  it('should calculate the correct handicap for 19 rounds', () => {
+    let mockRoundsServiceSpy = spyOn(mockRoundsService, 'getLatestTwentyRounds').and.returnValue(of(mock19Rounds));
+    component.getHandicap().subscribe(handicap => {
+      expect(handicap).toEqual(22.1);
     });
     expect(mockRoundsServiceSpy).toHaveBeenCalled();
   });
