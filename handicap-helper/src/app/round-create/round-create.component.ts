@@ -3,7 +3,6 @@ import { RoundsService } from '../services/rounds.service';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Round } from '../models/round.model';
-import { mimeType } from './mime-type.validator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -19,7 +18,7 @@ export class RoundCreateComponent implements OnInit {
   enteredSlope = null;
   enteredDate = '';
   form: FormGroup;
-  private mode = 'create';
+  public mode = 'create';
   private roundId: string;
   round: Round;
   isLoading = false;
