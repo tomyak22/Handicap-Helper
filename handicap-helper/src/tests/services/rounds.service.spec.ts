@@ -1,9 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
 import { RoundsService } from '../../app/services/rounds.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RoundsService', () => {
   let service: RoundsService;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule, RouterTestingModule ]
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
