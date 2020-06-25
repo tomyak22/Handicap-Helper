@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class RoundsService {
   private rounds: Round[] = [];
-  private roundsUpdated = new Subject<{rounds: Round[], roundsCount: number}>();
+  private roundsUpdated = new Subject<{ rounds: Round[], roundsCount: number }>();
   public updateHandicap = new Subject<void>();
 
   constructor(
@@ -34,29 +34,31 @@ export class RoundsService {
     const queryParams = `?pagesize=${roundsPerPage}&page=${currentPage}`;
     this.http.get<{ message: string, rounds: any, nRounds: number }>('http://localhost:3000/api/rounds' + queryParams)
       .pipe(map((data) => {
-        return { rounds: data.rounds.map(round => {
-          return {
-            score: round.score,
-            course: round.course,
-            rating: round.rating,
-            slope: round.slope,
-            date: round.date,
-            id: round._id,
-            creator: round.creator
-          };
-        }), nRounds: data.nRounds};
+        return {
+          rounds: data.rounds.map(round => {
+            return {
+              score: round.score,
+              course: round.course,
+              rating: round.rating,
+              slope: round.slope,
+              date: round.date,
+              id: round._id,
+              creator: round.creator
+            };
+          }), nRounds: data.nRounds
+        };
       }))
       .subscribe((transformedRoundsData) => {
         this.rounds = transformedRoundsData.rounds;
-        this.roundsUpdated.next({rounds: [...this.rounds], roundsCount: transformedRoundsData.nRounds});
+        this.roundsUpdated.next({ rounds: [...this.rounds], roundsCount: transformedRoundsData.nRounds });
       });
   }
 
   /**
    * Gets the last 20 rounds played from a user
    */
-  getLatestTwentyRounds(): Observable<Round[]>  {
-    return this.http.get< { message: string, rounds: any }>('http://localhost:3000/api/rounds/lastTwentyRounds')
+  getLatestTwentyRounds(): Observable<Round[]> {
+    return this.http.get<{ message: string, rounds: any }>('http://localhost:3000/api/rounds/lastTwentyRounds')
       .pipe(map((data) => {
         return data.rounds.map(round => {
           return {
@@ -77,7 +79,7 @@ export class RoundsService {
    * Uses GET method from round.js in order to fetch one individual round from backend
    * @param id id of the round we wish to retrieve
    */
-  getRound(id: string) {
+  getRound(id: string): Observable<Round> {
     return this.http.get<{
       _id: string,
       score: number,
@@ -85,7 +87,21 @@ export class RoundsService {
       slope: number,
       rating: number,
       date: string,
-      creator: string}>('http://localhost:3000/api/rounds/' + id);
+      creator: string
+    }>('http://localhost:3000/api/rounds/' + id)
+      .pipe(map((round) => {
+        const gotRound: Round = {
+          score: round.score,
+          course: round.course,
+          rating: round.rating,
+          slope: round.slope,
+          date: round.date,
+          id: round._id,
+          creator: round.creator
+        };
+        return gotRound;
+      }
+      ));
   }
 
   /**

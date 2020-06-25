@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoundsService } from '../services/rounds.service';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Round } from '../models/round.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,7 +27,7 @@ export class RoundCreateComponent implements OnInit {
   constructor(
     public roundsService: RoundsService,
     public route: ActivatedRoute,
-    private alertMessage: MatSnackBar
+    public alertMessage: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -57,7 +57,7 @@ export class RoundCreateComponent implements OnInit {
         this.roundsService.getRound(this.roundId).subscribe(data => {
           this.isLoading = false;
           this.round = {
-            id: data._id,
+            id: data.id,
             score: data.score,
             course: data.course,
             rating: data.rating,
