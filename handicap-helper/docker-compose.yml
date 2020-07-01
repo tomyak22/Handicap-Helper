@@ -1,0 +1,21 @@
+version: '3'
+
+services: 
+    angular:
+        container_name: handi-tracker-ui
+        build: . 
+        ports:
+            - '4200:4200'
+    express: 
+        container_name: handi-tracker-service
+        restart: always
+        build: .
+        ports: 
+            - '3000:3000'
+        links:
+            - mongo
+    mongo: 
+        container_name: mongo
+        image: mongo
+        ports:
+            - '27017:27017'
