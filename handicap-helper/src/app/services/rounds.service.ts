@@ -32,7 +32,7 @@ export class RoundsService {
    */
   getRounds(roundsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${roundsPerPage}&page=${currentPage}`;
-    this.http.get<{ message: string, rounds: any, nRounds: number }>('http://localhost:3000/api/rounds' + queryParams)
+    this.http.get<{ message: string, rounds: any, nRounds: number }>('http://68.183.133.196/api/rounds' + queryParams)
       .pipe(map((data) => {
         return {
           rounds: data.rounds.map(round => {
@@ -58,7 +58,7 @@ export class RoundsService {
    * Gets the last 20 rounds played from a user
    */
   getLatestTwentyRounds(): Observable<Round[]> {
-    return this.http.get<{ message: string, rounds: any }>('http://localhost:3000/api/rounds/lastTwentyRounds')
+    return this.http.get<{ message: string, rounds: any }>('http://68.183.133.196/api/rounds/lastTwentyRounds')
       .pipe(map((data) => {
         return data.rounds.map(round => {
           return {
@@ -88,7 +88,7 @@ export class RoundsService {
       rating: number,
       date: string,
       creator: string
-    }>('http://localhost:3000/api/rounds/' + id)
+    }>('http://68.183.133.196/api/rounds/' + id)
       .pipe(map((round) => {
         const gotRound: Round = {
           score: round.score,
@@ -123,7 +123,7 @@ export class RoundsService {
       date: date,
       creator: null
     };
-    this.http.post<{ message: string, roundId: string }>('http://localhost:3000/api/rounds', round)
+    this.http.post<{ message: string, roundId: string }>('http://68.183.133.196/api/rounds', round)
       .subscribe(data => {
         this.router.navigate(['/']);
       });
@@ -148,7 +148,7 @@ export class RoundsService {
       date: date,
       creator: null
     };
-    this.http.put('http://localhost:3000/api/rounds/' + id, round)
+    this.http.put('http://68.183.133.196/api/rounds/' + id, round)
       .subscribe(response => {
         this.router.navigate(['/']);
       });
@@ -159,6 +159,6 @@ export class RoundsService {
    * @param roundId id of the round we wish to delete
    */
   deleteRound(roundId: string) {
-    return this.http.delete('http://localhost:3000/api/rounds/' + roundId);
+    return this.http.delete('http://68.183.133.196/api/rounds/' + roundId);
   }
 }
