@@ -5,4 +5,7 @@ COPY package*.json ./
 RUN npm install
 COPY . /frontend
 EXPOSE 4200
-CMD ["npm", "start"]
+CMD ["npm", "run", "build", "--prod"]
+
+FROM nginx:alpine
+COPY --from=node /frontend/dist/handicap-helper /usr/share/nginx/html
