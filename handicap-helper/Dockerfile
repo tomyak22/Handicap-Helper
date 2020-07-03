@@ -3,7 +3,10 @@ RUN mkdir -p /frontend
 WORKDIR /frontend
 COPY package*.json ./
 RUN npm install
-RUN npm install -g @angular/cli
-COPY . /frontend
-EXPOSE 4200
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+COPY . .
+RUN npm run install
+
+# Second Stage
+FROM nginx
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=node /frontend/dist /usr/share/nginx/html
