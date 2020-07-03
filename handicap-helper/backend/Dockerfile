@@ -1,6 +1,7 @@
 FROM node:12
+RUN mkdir -p /backend
 
-WORKDIR /usr/src/app
+WORKDIR /backend
 
 COPY package*.json ./
 

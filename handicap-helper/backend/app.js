@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const roundsRoutes = require('./routes/rounds');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb://localhost/HandicapHelperDB')
+mongoose.connect('mongodb://mongo:27017/HandicapHelperDB')
     .then(() => {
         console.log('Connected');
     })

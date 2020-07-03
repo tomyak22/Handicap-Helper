@@ -5,7 +5,7 @@ services:
         container_name: handi-tracker-ui
         build: . 
         ports:
-            - '4200:4200'
+            - '4200:80'
     express: 
         container_name: handi-tracker-service
         restart: always
