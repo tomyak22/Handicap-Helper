@@ -3,13 +3,13 @@ version: '3'
 services: 
     angular:
         container_name: handi-tracker-ui
-        build: . 
+        build: ./handicap-helper
         ports:
             - '4200:80'
     express: 
         container_name: handi-tracker-service
         restart: always
-        build: .
+        build: ./backend
         ports: 
             - '3000:3000'
         links:
@@ -17,5 +17,7 @@ services:
     mongo: 
         container_name: mongo
         image: mongo
+        volumes: 
+            - /mongo-volume:/data/db
         ports:
             - '27017:27017'
