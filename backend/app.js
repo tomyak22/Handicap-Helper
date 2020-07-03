@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const path = require('path');
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://mongo:27017/HandicapHelperDB')
     });
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json());
 
