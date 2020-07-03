@@ -2,9 +2,8 @@ FROM node:12 as node
 RUN mkdir -p /frontend
 WORKDIR /frontend
 COPY package*.json ./
+RUN npm cache clean
 RUN npm install
 COPY . .
-CMD ["ng","build", "--prod"]
-
-FROM nginx:alpine
-COPY --from=node /frontend/dist/handicap-helper /usr/share/nginx
+EXPOSE 4200
+CMD ["npm", "start"]
