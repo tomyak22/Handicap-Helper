@@ -3,9 +3,7 @@ RUN mkdir -p /frontend
 WORKDIR /frontend
 COPY package*.json ./
 RUN npm install
+RUN npm install -g @angular/cli
 COPY . /frontend
 EXPOSE 4200
-CMD ["npm", "run", "build", "--prod"]
-
-FROM nginx:alpine
-COPY --from=node /frontend/dist/handicap-helper /usr/share/nginx/html
+CMD ["ng", "serve", "--host", "0.0.0.0"]
