@@ -3,8 +3,9 @@ RUN mkdir -p /frontend
 WORKDIR /frontend
 COPY package*.json ./
 RUN npm install
+RUN npm install -g @angular/cli
 COPY . .
-RUN npm run install
+RUN ng build
 
 # Second Stage
 FROM nginx
