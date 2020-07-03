@@ -14,6 +14,6 @@ EXPOSE 3000
 CMD ["npm", "start"]
 
 # Second Stage
-# FROM nginx
-# COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-# COPY --from=node /backend/dist /usr/share/nginx/html
+FROM nginx
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=node /backend/dist /usr/share/nginx/html

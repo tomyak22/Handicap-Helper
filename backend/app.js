@@ -23,10 +23,10 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-// app.use(express.static(path.join(__dirname, 'public')));
-// app.use(function(req, res) {
-//     res.sendFile(__dirname + '/dist/index.html');
-// });
+app.use(express.static(path.join(__dirname, '/dist')));
+app.use(function(req, res) {
+    res.sendFile('/dist/handicap-helper/index.html', {root: __dirname});
+});
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
