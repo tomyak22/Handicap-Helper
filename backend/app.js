@@ -24,7 +24,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, '/dist')));
-app.use(function(req, res) {
+app.get('/', function(req, res) {
     res.sendFile('/dist/handicap-helper/index.html', {root: __dirname});
 });
 
