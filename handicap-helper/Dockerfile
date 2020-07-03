@@ -7,4 +7,4 @@ COPY . .
 CMD ["ng","build", "--prod"]
 
 FROM nginx:alpine
-COPY --from=node /frontend/dist/handicap-helper /usr/share/nginx/html
+COPY --from=node /frontend/dist/handicap-helper /usr/share/nginx
