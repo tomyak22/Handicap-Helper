@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('./backend/app');
+var app = require('./app');
 var debug = require('debug')('handicapservice:server');
 var http = require('http');
 
