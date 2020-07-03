@@ -1,5 +1,7 @@
 const express = require('express');
 require('dotenv').config();
+const path = require('path');
+
 const bodyParser = require('body-parser');
 
 const mongoose = require('mongoose');
@@ -18,6 +20,11 @@ mongoose.connect('mongodb://mongo:27017/HandicapHelperDB')
 const app = express();
 
 app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res) {
+    res.sendFile(__dirname + '/dist/index.html');
+});
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");

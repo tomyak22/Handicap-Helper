@@ -4,9 +4,4 @@ WORKDIR /frontend
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 4200
 CMD ["ng","build", "--prod"]
-
-FROM nginx:alpine
-
-COPY --from=node /frontend/dist /usr/share/nginx/html

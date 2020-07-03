@@ -9,6 +9,10 @@ RUN npm install
 
 COPY . .
 
+RUN mkdir -p /backend/public
+
+COPY --from=handi-tracker-ui /frontend/dist/handicap-helper /backend/public
+
 EXPOSE 3000
 
 CMD ["npm", "start"]
