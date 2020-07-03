@@ -23,10 +23,8 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, '/dist')));
-app.get('/', function(req, res) {
-    res.sendFile('/dist/handicap-helper/index.html', {root: __dirname});
-});
+app.use("/", express.static(path.join(__dirname, 'dist/handicap-helper')));
+
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,4 +35,7 @@ app.use((req, res, next) => {
 
 app.use('/api/rounds', roundsRoutes);
 app.use('/api/user', userRoutes);
+app.use((req, res, next) => {
+    res.sendFile(path.join(__dirname, "dist/handicap-helper", "index.html"));
+});
 module.exports = app;
