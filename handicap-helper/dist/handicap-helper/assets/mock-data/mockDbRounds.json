@@ -1,0 +1,161 @@
+[{
+    "_id":  "1",
+    "score": 97,
+    "course": "St James Member's Club (Cate)",
+    "rating": 68.2,
+    "slope": 123,
+    "date": "2020-06-10",
+    "creator": "TestUser"
+  },{
+    "_id": "2",
+    "score": 100,
+    "course": "St James Players Club",
+    "rating": 68.5,
+    "slope": 128,
+    "date": "2020-06-08",
+    "creator":  "TestUser"
+  },{
+    "_id":  "3",
+    "score": 97,
+    "course": "St James Reserve Club",
+    "rating": 67.8,
+    "slope": 118,
+    "date": "2020-06-03",
+    "creator": "TestUser"
+  },{
+    "_id":  "4",
+    "score": 94,
+    "course": "St James Reserve Club",
+    "rating": 67.8,
+    "slope": 118,
+    "date": "2020-05-28",
+    "creator": "TestUser"
+  },{
+    "_id":  "5",
+    "score": 87,
+    "course": "St James Members Club (Back)",
+    "rating": 68.2,
+    "slope": 125,
+    "date": "2020-05-06",
+    "creator": "TestUser"
+  },{
+    "_id":  "6",
+    "score": 96,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-05-02",
+    "creator": "TestUser"
+  },{
+    "_id":  "7",
+    "score": 91,
+    "course": "St James Plantation",
+    "rating": 68.4,
+    "slope": 123,
+    "date": "2020-05-01",
+    "creator": "TestUser"
+  },{
+    "_id":  "8",
+    "score": 96,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-29",
+    "creator": "TestUser"
+  },{
+    "_id":  "9",
+    "score": 99,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-27",
+    "creator": "TestUser"
+  },{
+    "_id":  "10",
+    "score": 108,
+    "course": "St James Plantation",
+    "rating": 69.3,
+    "slope": 128,
+    "date": "2020-04-25",
+    "creator": "TestUser"
+  },{
+    "_id":  "11",
+    "score": 97,
+    "course": "St James Plantation",
+    "rating": 68.2,
+    "slope": 125,
+    "date": "2020-04-24",
+    "creator": "TestUser"
+  },{
+    "_id":  "12",
+    "score": 98,
+    "course": "St James Plantation",
+    "rating": 67.2,
+    "slope": 123,
+    "date": "2020-04-22",
+    "creator": "TestUser"
+  },{
+    "_id":  "13",
+    "score": 100,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-18",
+    "creator": "TestUser"
+  },{
+    "_id":  "14" ,
+    "score": 94,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-16",
+    "creator": "TestUser"
+  },{
+    "_id":  "15",
+    "score": 99,
+    "course": "St James Members Club",
+    "rating": 68.2,
+    "slope": 123,
+    "date": "2020-04-11",
+    "creator": "TestUser"
+  },{
+    "_id":  "16",
+    "score": 101,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-10",
+    "creator": "TestUser"
+  },{
+    "_id":  "17",
+    "score": 100,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-08",
+    "creator": "TestUser"
+  },{
+    "_id":  "18",
+    "score": 99,
+    "course": "St James Founders Club",
+    "rating": 68.9,
+    "slope": 126,
+    "date": "2020-04-06",
+    "creator": "TestUser"
+  },{
+    "_id":  "19",
+    "score": 102,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-04",
+    "creator": "TestUser"
+  },{
+    "_id":  "20",
+    "score": 102,
+    "course": "St James Plantation",
+    "rating": 68.8,
+    "slope": 124,
+    "date": "2020-04-03",
+    "creator": "TestUser"
+  }]
