@@ -30,3 +30,6 @@ node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
 
 **Formula for Handicap**
 (Score – Course Rating) x 113 / Slope Rating
+
+**Pre-Build for Docker**
+ng build --prod
