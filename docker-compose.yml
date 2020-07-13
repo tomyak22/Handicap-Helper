@@ -16,7 +16,7 @@ services:
             - mongo
     mongo: 
         container_name: mongo
-        command: ["mongod", "-f", "/etc/mongo/mongod.conf"]
+        command: ["mongod", "-f", "/etc/mongo/mongod.conf.orig"]
         image: mongo
         volumes: 
             - /mongo-volume:/data/db
