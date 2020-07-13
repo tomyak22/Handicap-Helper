@@ -16,10 +16,10 @@ services:
             - mongo
     mongo: 
         container_name: mongo
-        # command: ["mongod", "-f", "/etc/mongo/mongod.conf"]
+        command: ["mongod", "-f", "/etc/mongo/mongod.conf"]
         image: mongo
         volumes: 
-            # - /mongo-config:/etc/mongo
+            - /mongo-config:/etc/mongo
             - /mongo-volume:/data/db
-        ports:
-            - '27017:27017'
+        # ports:
+        #     - '27017:27017'
