@@ -21,5 +21,5 @@ services:
         volumes: 
             - /mongo-config:/etc/mongo
             - /mongo-volume:/data/db
-        # ports:
-        #     - '27017:27017'
+        ports:
+            - '27017:27017'
